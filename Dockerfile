@@ -1,4 +1,4 @@
-FROM qulo/spark:2.0.2-hadoop-2.8
+FROM qulo/spark:2.1.1-hadoop-2.8
 
 # SciPy
 RUN set -ex \
@@ -12,6 +12,7 @@ RUN set -ex \
     $buildDeps \
     ca-certificates \
     wget \
+    r-base \
     liblapack-dev \
     libopenblas-dev \
  && packages=' \
