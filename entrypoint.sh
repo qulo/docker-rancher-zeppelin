@@ -1,9 +1,15 @@
 #!/bin/bash
 
 HOSTSFILE=$(cat /etc/hosts)
-PRIMARY_IP=$(curl -s rancher-metadata/latest/self/container/primary_ip)
+
+if [[ $(curl -s rancher-metadata/latest/self/container/name) -eq 1 ]]; then
+		PRIMARY_IP=$(curl -s rancher-metadata/latest/self/container/primary_ip)
+else
+		PRIMARY_IP=$(hostname -i)
+fi
+
 
 echo ${HOSTSFILE//`hostname -i`/$PRIMARY_IP} > /etc/hosts
 hostname -i
-ZEPPELIN_ADDR=$PRIMARY_IP \
+export ZEPPELIN_ADDR=$PRIMARY_IP
 exec bin/zeppelin.sh
